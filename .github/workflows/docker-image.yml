@@ -14,6 +14,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - name: npm install
+      run: npm install
+    - name: build project
+      run: ./node_modules/.bin/nx run env:build --skip-nx-cache
+    - name: Docker build
+      uses: docker/setup-buildx-action@v2.4.1
     - name: docker login
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}   
@@ -21,18 +27,13 @@ jobs:
       uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
       with:
           username: ${{ secrets.DOCKER_USER }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-    - name: npm install
-      run: npm install
-    - name: build project
-      run: ./node_modules/.bin/nx run env:build --skip-nx-cache
+          password: ${{ secrets.DOCKER_PASSWORD }}  
     - name: Build and Push docker images
-      uses: docker/build-push-action@v2
+      uses: docker/build-push-action@v4
       with:
-          context: .
           push: true
           tags: princesoni:nx1
-          labels: princesoni:nx1
+          labels: princesoni/nx:latest
     
       
         

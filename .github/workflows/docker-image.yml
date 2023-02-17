@@ -1,0 +1,32 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: docker login
+      env:
+        DOCKER_USER: ${{ secrets.DOCKER_USER }}   
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }} 
+      run: docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    - name: npm install
+      run: npm install
+    - name: build project
+      run: nx run env:build --skip-nx-cache
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag env-prince-soni:latest1
+    - name: push docker images
+      run: docker push
+    
+      
+        

@@ -26,12 +26,12 @@ jobs:
       run: npm install
     - name: build project
       run: ./node_modules/.bin/nx run env:build --skip-nx-cache
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag env-prince-soni:latest1
-    - name: push docker images
+    - name: Build and Push docker images
       uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
       with:
           context: .
+          push: true
+          labels: env-prince-soni:latest1
     
       
         

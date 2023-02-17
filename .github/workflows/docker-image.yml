@@ -25,11 +25,11 @@ jobs:
     - name: npm install
       run: npm install
     - name: build project
-      run: nx run env:build --skip-nx-cache
+      run: ./node_modules/.bin/nx run env:build --skip-nx-cache
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag env-prince-soni:latest1
     - name: push docker images
-      run: docker push
+      run: docker push env-prince-soni:latest1
     
       
         

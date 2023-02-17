@@ -38,7 +38,7 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/nxtest:latest
+        tags: ${{ secrets.DOCKER_USER }}/nxtest:latest
     
       
         
